@@ -18,30 +18,30 @@ ifeq ($(PLATFORM), Linux)
 else
   SDK_URL=https://warehouse.leapmotion.com/apps/4181/download
 endif
-SDK_PATH=./leap/LeapSDK
+SDK_PATH=./leap-sdk/LeapSDK
 
 LeapPython.so: Leap.py
 	g++ -fPIC -lpython$(PY_VERSION) -I$(PY_PATH)/include/python$(PY_VERSION)m -I$(SDK_PATH)/include -L$(PY_PATH)/lib LeapPython.cpp $(SDK_PATH)/lib/$(OBJ_PATH) -shared -o LeapPython.so
 
-Leap.py: leap
+Leap.py: leap-sdk
 	swig -c++ -python -o LeapPython.cpp -interface LeapPython $(SDK_PATH)/include/Leap.i
 
-leap: LeapSDK.tar.gz Leap.i.diff
-	mkdir -p leap
-	tar xvf LeapSDK.tar.gz -C leap --strip-components 1
+leap-sdk: LeapSDK.tgz Leap.i.diff
+	mkdir -p leap-sdk
+	tar xvf LeapSDK.tgz -C leap-sdk --strip-components 1
 	patch -p0 < Leap.i.diff
 
-LeapSDK.tar.gz:
-	wget -O LeapSDK.tar.gz $(SDK_URL)
+LeapSDK.tgz:
+	wget -O LeapSDK.tgz $(SDK_URL)
 
 clean:
 	rm -rf __pycache__
-	rm -rf leap
+	rm -rf leap-sdk
 	rm -f LeapPython.cpp
 	rm -f LeapPython.h
 	rm -f LeapPython.so
 	rm -f Leap.py
-	rm -f LeapSDK.tar.gz
+	rm -f LeapSDK.tgz
 
 install:
 	mkdir -p $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/

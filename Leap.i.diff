@@ -1,5 +1,5 @@
---- leap/LeapSDK/include/Leap.i.orig	2015-08-21 04:04:39.000000000 +0000
-+++ leap/LeapSDK/include/Leap.i	2016-05-04 17:31:08.226366998 +0000
+--- leap-sdk/LeapSDK/include/Leap.i.orig	2015-08-21 04:04:39.000000000 +0000
++++ leap-sdk/LeapSDK/include/Leap.i	2016-05-04 17:31:08.226366998 +0000
 @@ -539,7 +539,7 @@
    if _newclass:data = _swig_property(data)
    __swig_getmethods__["distortion"] = distortion
