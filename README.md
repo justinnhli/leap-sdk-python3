@@ -1,6 +1,6 @@
-# Leap Motion SDK Python 3 module builer
+# Leap Motion SDK Python 3 module builder
 
-The Leap Motion Python module is not [not officially compatible with Python 3](https://developer.leapmotion.com/documentation/python/devguide/Project_Setup.html#recompiling-leappython-for-python-3).
+The Leap Motion Python module is [not officially compatible with Python 3](https://developer.leapmotion.com/documentation/python/devguide/Project_Setup.html#recompiling-leappython-for-python-3).
 
 This project aims to provide a simple and automated way to build and install your Python 3 module for the Leap Motion.
 
@@ -22,10 +22,16 @@ make
 [sudo] make install
 ```
 
-`PREFIX` (where both `libLeap.so` and the Python bindings will be installed) points to `/usr` by default. Change it if required:
+The `PREFIX` environment variable controls where `libLeap.so` (or `libLeap.dylib` for OSX) will be installed. `/usr` is used if none is specified.
 
 ```shell
-PREFIX=/your/local/prefix make install
+[sudo] PREFIX=/your/local/prefix make install
+```
+
+## Test the module
+
+```shell
+make test
 ```
 
 ## Clean the source directory
@@ -39,4 +45,3 @@ make clean
 ```shell
 [sudo] make uninstall
 ```
-
