@@ -4,15 +4,23 @@ ARCH := $(shell uname -m | sed -e 's/x86_64/x64/')
 
 SDK_PATH=./leap/LeapSDK
 
-all:
-	[ -f ./LeapSDK.tar.gz ] || wget -O LeapSDK.tar.gz http://warehouse.leapmotion.com/apps/4185/download/
+LeapPython.so: Leap.py
+	g++ -fPIC -I/usr/include/python$(PYTHON3_VERSION)m -I$(SDK_PATH)/include LeapPython.cpp $(SDK_PATH)/lib/$(ARCH)/libLeap.so -shared -o LeapPython.so
+
+Leap.py: leap
+	swig -c++ -python -o LeapPython.cpp -interface LeapPython ./include/Leap.i
+
+leap: LeapSDK.tar.gz Leap.i.diff
 	mkdir -p leap
 	tar xvf LeapSDK.tar.gz -C leap --strip-components 1
 	cp -r $(SDK_PATH)/include ./include
-	wget http://tinyurl.com/leap-i-patch -O Leap.i.diff
 	patch -p0 < Leap.i.diff
-	swig -c++ -python -o LeapPython.cpp -interface LeapPython ./include/Leap.i
-	g++ -fPIC -I/usr/include/python$(PYTHON3_VERSION)m -I$(SDK_PATH)/include LeapPython.cpp $(SDK_PATH)/lib/$(ARCH)/libLeap.so -shared -o LeapPython.so
+
+Leap.i.diff:
+	wget http://tinyurl.com/leap-i-patch -O Leap.i.diff
+
+LeapSDK.tar.gz:
+	wget -O LeapSDK.tar.gz http://warehouse.leapmotion.com/apps/4185/download/
 
 clean:
 	rm -rf __pycache__
@@ -35,4 +43,3 @@ uninstall:
 	rm -f $(PREFIX)/lib/python$(PYTHON3_VERSION)/site-packages/Leap.py
 	rm -f $(PREFIX)/lib/python$(PYTHON3_VERSION)/site-packages/LeapPython.so
 	rm -f $(PREFIX)/lib/libLeap.so
-
