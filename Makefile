@@ -42,12 +42,19 @@ clean:
 	rm -f LeapPython.so
 	rm -f Leap.py
 	rm -f LeapSDK.tgz
+	rm -f Sample.py
 
 install:
 	mkdir -p $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/
 	install -m 0644 Leap.py $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/Leap.py
 	install -m 0755 LeapPython.so $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/LeapPython.so
 	install -m 0755 $(SDK_PATH)/lib/$(OBJ_PATH) $(PREFIX)/lib/$(OBJ_FILE)
+
+Sample.py:
+	2to3 $(SDK_PATH)/samples/Sample.py
+
+test: Sample.py
+	python3 Sample.py
 
 uninstall:
 	rm -f $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/Leap.py
