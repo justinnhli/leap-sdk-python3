@@ -16,9 +16,6 @@ leap: LeapSDK.tar.gz Leap.i.diff
 	cp -r $(SDK_PATH)/include ./include
 	patch -p0 < Leap.i.diff
 
-Leap.i.diff:
-	wget http://tinyurl.com/leap-i-patch -O Leap.i.diff
-
 LeapSDK.tar.gz:
 	wget -O LeapSDK.tar.gz http://warehouse.leapmotion.com/apps/4185/download/
 
@@ -26,7 +23,6 @@ clean:
 	rm -rf __pycache__
 	rm -rf include
 	rm -rf leap
-	rm -f Leap.i.diff
 	rm -f LeapPython.cpp
 	rm -f LeapPython.h
 	rm -f LeapPython.so
