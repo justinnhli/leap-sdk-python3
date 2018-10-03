@@ -28,7 +28,7 @@ Leap.py: leap-sdk
 
 leap-sdk: LeapSDK.tgz Leap.i.diff
 	mkdir -p leap-sdk
-	tar xvf LeapSDK.tgz -C leap-sdk --strip-components 1
+	tar -C leap-sdk --strip-components 1 -xf LeapSDK.tgz 
 	patch -p0 < Leap.i.diff
 
 LeapSDK.tgz:
@@ -37,18 +37,18 @@ LeapSDK.tgz:
 clean:
 	rm -rf __pycache__
 	rm -rf leap-sdk
+	rm -f LeapSDK.tgz
 	rm -f LeapPython.cpp
 	rm -f LeapPython.h
-	rm -f LeapPython.so
 	rm -f Leap.py
-	rm -f LeapSDK.tgz
+	rm -f LeapPython.so
 	rm -f Sample.py
 
 install:
 	mkdir -p $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/
-	install -m 0644 Leap.py $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/Leap.py
-	install -m 0755 LeapPython.so $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/LeapPython.so
 	install -m 0755 $(SDK_PATH)/lib/$(OBJ_PATH) $(PREFIX)/lib/$(OBJ_FILE)
+	install -m 0755 LeapPython.so $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/LeapPython.so
+	install -m 0644 Leap.py $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/Leap.py
 
 Sample.py:
 	2to3 $(SDK_PATH)/samples/Sample.py
