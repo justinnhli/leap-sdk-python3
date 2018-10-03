@@ -8,12 +8,11 @@ LeapPython.so: Leap.py
 	g++ -fPIC -I/usr/include/python$(PYTHON3_VERSION)m -I$(SDK_PATH)/include LeapPython.cpp $(SDK_PATH)/lib/$(ARCH)/libLeap.so -shared -o LeapPython.so
 
 Leap.py: leap
-	swig -c++ -python -o LeapPython.cpp -interface LeapPython ./include/Leap.i
+	swig -c++ -python -o LeapPython.cpp -interface LeapPython $(SDK_PATH)/include/Leap.i
 
 leap: LeapSDK.tar.gz Leap.i.diff
 	mkdir -p leap
 	tar xvf LeapSDK.tar.gz -C leap --strip-components 1
-	cp -r $(SDK_PATH)/include ./include
 	patch -p0 < Leap.i.diff
 
 LeapSDK.tar.gz:
@@ -21,7 +20,6 @@ LeapSDK.tar.gz:
 
 clean:
 	rm -rf __pycache__
-	rm -rf include
 	rm -rf leap
 	rm -f LeapPython.cpp
 	rm -f LeapPython.h
