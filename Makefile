@@ -51,7 +51,7 @@ install:
 	install -m 0644 Leap.py $(PY_PATH)/lib/python$(PY_VERSION)/site-packages/Leap.py
 
 Sample.py:
-	2to3 $(SDK_PATH)/samples/Sample.py
+	2to3 -wno . $(SDK_PATH)/samples/Sample.py
 
 test: Sample.py
 	python3 Sample.py
