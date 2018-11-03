@@ -1,6 +1,8 @@
 __pycache__
+LeapSDK.tgz
 leap-sdk
 LeapPython.cpp
 LeapPython.h
 Leap.py
 LeapPython.so
+Sample.py
